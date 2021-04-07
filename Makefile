@@ -15,6 +15,11 @@ clean:
 	rm -f hello.{ko,mod.c,mod.o,o}
 	rm -f modules.order Module.symvers 
 
+dist:
+	mkdir -p hello
+	cp hello.c Makefile hello
+	tar cf hello.tar hello
+
 test: hello.ko
 	lsmod | grep hello || echo OK module not loaded
 	sudo insmod ./hello.ko
