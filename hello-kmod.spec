@@ -11,7 +11,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # Additional dependency information for the kmod sub-package must be specified
 # by generating a preamble text file which kmodtool can append to the spec file.
 %(/bin/echo -e "\
-Requires:       hello = %{version}\n\
+Requires:       kmod-hello = %{version}\n\
 Conflicts:      hello-dkms\n\
 Obsoletes:      spl-kmod\n\n" > %{_sourcedir}/kmod-preamble)
 
