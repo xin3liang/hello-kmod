@@ -6,21 +6,17 @@ License:        CDDL
 Group:          System Environment/Kernel
 BuildRequires:  %kernel_module_package_buildreqs
 Source0:        hello.tar
+Source1:        kmod-hello.preamble
+Source2:        kmod-hello.files
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-# Additional dependency information for the kmod sub-package must be specified
-# by generating a preamble text file which kmodtool can append to the spec file.
-%(/bin/echo -e "\
-Requires:       kmod-hello = %{version}\n\
-Conflicts:      hello-dkms\n\
-Obsoletes:      spl-kmod\n\n" > %{_sourcedir}/kmod-preamble)
 
 %description
 This package contains the hello kernel module, which does nothing.
 
 %define kmod_name hello
+%global modules_path /lib/modules/%{kverrel}/extra/hello
 
-%kernel_module_package -n %{kmod_name} -p %{_sourcedir}/kmod-preamble
+%kernel_module_package -n %{kmod_name} -p %{SOURCE1} -f %{SOURCE2}
 
 %prep
 %setup -n %{kmod_name}
@@ -29,11 +25,8 @@ This package contains the hello kernel module, which does nothing.
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}/lib/modules/%{kverrel}/extra/hello/hello/
-install -m 755 %{kmod_name}.ko %{buildroot}/lib/modules/%{kverrel}/extra/hello/hello/hello.ko
-find %{buildroot} -type f
-%{__rm} -f %{buildroot}/lib/modules/%{kverrel}/modules.*
-
+mkdir -p %{buildroot}/%{modules_path}
+%{__install} -m 755 hello.ko %{buildroot}/%{modules_path}/hello.ko
 
 %clean
 rm -rf $RPM_BUILD_ROOT

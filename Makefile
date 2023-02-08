@@ -12,8 +12,10 @@ default:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
 clean:
-	rm -f hello.{ko,mod.c,mod.o,o}
+	rm -f hello.{ko,mod.c,mod.o,o,mod}
 	rm -f modules.order Module.symvers 
+	rm -f  .*.cmd
+	rm -rf hello/ hello.tar
 
 dist:
 	mkdir -p hello
@@ -25,6 +27,7 @@ test: hello.ko
 	sudo insmod ./hello.ko
 	sudo rmmod hello
 	lsmod | grep hello || echo OK module not loaded
+	sudo dmesg | tail -n 2
 
 endif
 
