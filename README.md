@@ -3,6 +3,9 @@ Simple spec files and supporting material to create tiny redhat kmod-(use `kerne
 
 ### Build kmod rpm
 ```
+rpmdev-setuptree
+git clone https://github.com/xin3liang/hello-kmod.git
+cd hello-kmod
 make dist
 mkdir -p  ~/rpmbuild/SOURCES
 mv hello.tar ~/rpmbuild/SOURCES
