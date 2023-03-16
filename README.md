@@ -7,7 +7,6 @@ rpmdev-setuptree
 git clone https://github.com/xin3liang/hello-kmod.git
 cd hello-kmod
 make dist
-mkdir -p  ~/rpmbuild/SOURCES
-mv hello.tar ~/rpmbuild/SOURCES
+cp -r hello.tar kmod-hello.files kmod-hello.preamble  ~/rpmbuild/SOURCES
 rpmbuild -ba hello-kmod.spec
 ```
